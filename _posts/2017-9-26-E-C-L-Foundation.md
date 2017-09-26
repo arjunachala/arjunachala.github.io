@@ -32,8 +32,8 @@ For this code example, the ECL compiler creates two separate (parallel) paths in
 
 <div class="mermaid">
 graph TD;
-    A{Read Employee DS}-->B{OUTPUT(read employee data)};
-    C{Read Salary DS}-->D{OUTPUT(read salary data)};
+    A[Read Employee DS]-->B[OUTPUT read employee data];
+    C[Read Salary DS]-->D[OUTPUT read salary data];
 </div> 
 
 Read Employee DS -> OUTPUT(read employee data);
