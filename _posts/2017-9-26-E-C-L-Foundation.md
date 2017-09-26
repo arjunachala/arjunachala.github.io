@@ -28,12 +28,12 @@ OUTPUT(salaryDS);
 ```
 
 
-For this code example, the ECL compiler creates two seperate (parallel) paths in the execution graph:
+For this code example, the ECL compiler creates two separate (parallel) paths in the execution graph:
 
 <div class="mermaid">
 graph TD;
-    Read Employee DS-->OUTPUT(read employee data);
-    Read Salary DS-->OUTPUT(read salary data);
+    A{Read Employee DS}-->B{OUTPUT(read employee data)};
+    C{Read Salary DS}-->D{OUTPUT(read salary data)};
 </div> 
 
 Read Employee DS -> OUTPUT(read employee data);
