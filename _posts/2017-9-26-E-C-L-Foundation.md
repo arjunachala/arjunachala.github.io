@@ -10,10 +10,7 @@ salaryDS := DATASET(...);
 OUTPUT(employeeDS);
 ```
 
-
 For this code example, the ECL compiler creates an execution graph:
-
-Read Employee DS -> OUTPUT(read data);
 
 <div class="mermaid">
 graph TD;
