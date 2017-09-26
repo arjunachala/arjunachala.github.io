@@ -15,6 +15,11 @@ For this code example, the ECL compiler creates an execution graph:
 
 Read Employee DS -> OUTPUT(read data);
 
+<div class="mermaid">
+graph TD;
+    A[Read Employee DS]-->B[OUTPUT read employee data];
+</div> 
+
 NOTE: The salaryDS part is completely ignored as it is never used
 
 
@@ -36,10 +41,6 @@ graph TD;
     C[Read Salary DS]-->D[OUTPUT read salary data];
 </div> 
 
-Read Employee DS -> OUTPUT(read employee data);
-
-Read Salary DS -> OUTPUT(read salary data);
-
 NOTE: The ECL compiler realizes that the OUTPUTs are independent of each other and hence can be executed in parallel
 
 ## 3. Execution path is automatically sequenced when there is a dependency
@@ -53,11 +54,14 @@ joinedDS := JOIN(employeeDS, salaryDS,
 OUTPUT(joinedDS);
 ```
 
-Read Employee DS -> 
 
-                       JOIN  -> OUTPUT (joinedDS)
+<div class="mermaid">
+graph TD;
+    A[Read Employee DS]-->C[JOIN];
+    B[Read Salary DS]-->C
+    C-->D[OUTPUT joined DS];
+</div> 
 
-Read Salary DS   -> 
 
 NOTE: The ECL compiler realizes that the JOIN depends on both the datasets. Hence, the path starts out as parallel, and is then sequenced into the JOIN.
 
