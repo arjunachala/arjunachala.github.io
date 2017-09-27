@@ -1,4 +1,4 @@
-The foundation of the ECL Language is based on a data flow execution paradigm. This is similar to how SQL Engines optimize execution of the statement based on an optimized explain plan.
+The foundation of the ECL Language is based on a data flow execution paradigm. This is similar to how SQL Engines optimize execution of the SQL command based on an optimized explain plan.
 
 Three key points to remember when programming in ECL 
 
@@ -54,7 +54,7 @@ OUTPUT(joinedDS);
 
 <div class="mermaid">
 graph TD;
-    A[Read Employee DS]-->C[JOIN];
+    A[Read Employee DS]-->C(JOIN);
     B[Read Salary DS]-->C
     C-->D[OUTPUT joined DS];
 </div> 
