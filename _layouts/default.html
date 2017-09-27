@@ -6,16 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-  <link rel="stylesheet" href="/css/mermaid.dark.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="/css/mermaid.dark.css" type="text/css" /> -->
   <script src="/js/mermaid.min.js"></script>] {% seo %}
 </head>
 
 <body>
-  <script>
-    $(document).load(function () {
-      mermaid.initialize();
-    });
-  </script>
   <header>
     <div class="container">
       <h1>{{ site.title | default: site.github.repository_name }}</h1>
@@ -35,6 +30,10 @@
       {{ content }}
     </section>
   </div>
+
+  <script>
+  window.mermaid_config = { theme: 'dark' }
+  </script>
 
   {% if site.google_analytics %}
   <script type="text/javascript">
