@@ -62,4 +62,4 @@ graph TD;
 
 NOTE: The ECL compiler realizes that the JOIN depends on both the datasets. Hence, the path starts out as parallel, and is then sequenced into the JOIN.
 
-The key takeaway is that the ECL compiler optimizes the code based on the flow of the data through the program and NOT by the sequence of steps coded. Now, this contrasts with Java where the execution of statements is based on how the developer codes it. 
+The key takeaway is that the ECL compiler optimizes the code based on the flow of the data through the program and NOT by the sequence of steps coded. In contrast, imperative programming languages like Java, Python, C++ etc, execute the statements based on how the developer codes it. **This is a very important distinction to keep in mind while coding ECL.**
