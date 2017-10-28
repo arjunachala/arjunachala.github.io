@@ -1,4 +1,4 @@
-As you might have already discovered, the HPCC Systems stack consists of two primary processing engines.
+As you might have already discovered, the HPCC Systems stack consists of two primary processing cluster components.
 
 The **Thor** component is synonymous to Hadoop and Spark. It is used to process batch workloads on large-scale data and produce analytical outputs like aggregation views, scoring models etc. Since Thor has been built from the ground up to process batch data, its architecture is primed to perform some tasks like reading sequential data from a file and processing it.
 
@@ -12,7 +12,7 @@ A sample Thor configuration:
 
 **Dali** is the HPCC Systems equivalent of the name node in the Hadoop architecture. The primary function of Dali is to store the metadata for the distributed file system. In addition, Dali stores the job execution statistics and data outputs. 
 
-**Thor** is based on a **Master and Slave** architecture, where each Slave node hosts a partition of a data file and is responsible for code that processes that data partition. The Master node is responsible for the overall execution of a job and coordination of the execution flow. In circumstances where data needs to be exchanged between the Slave nodes, the Slave nodes communicate between themselves. 
+**Thor** is based on a **Master and Slave** architecture, where each Slave node hosts a partition of a data file and is responsible for code that processes that data partition. The Master node is responsible for the overall execution of a job and coordination of the execution flow. In circumstances where data needs to be exchanged between the Slave nodes, the Slave nodes communicate among themselves. 
 
 A sample Roxie configuration:
 
@@ -24,5 +24,7 @@ A sample Roxie configuration:
 1. Services queries from clients.
 1. For storing the metadata of every file in the cluster and the cluster location of the data parts that make up each file. 
 1. Communicate with the workers in the cluster to process the data and return the results
+
+As discussed, Thor and Roxie are complementing components in the HPCC Systems stack. Large batch data manipulation - clean, normalize, transform, analyze - is Thor's strength. Roxie, on the other hand, is used to surfacing Thor's analyzed data as queries and services for real-time consumption.
 
 
