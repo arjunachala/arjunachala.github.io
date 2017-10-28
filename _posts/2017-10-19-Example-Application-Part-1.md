@@ -4,7 +4,7 @@ The input file can be downloaded from the [data.gov](http://data.gov) site. This
 
 Once you download the file, I would recommend that you rename it something that is more user friendly. I renamed my file to "chicago_employees.csv". 
 
-Let us step back a bit and understand the topology of the HPCC cluster that we are going to use. The Thor cluster, the batch oriented analysis engine, is setup with 4 slaves (aka executors) and a single management node. The ROXIE cluster, is setup as a single node. 
+Let us step back a bit and understand the topology of the HPCC cluster that we are going to use. The Thor cluster, the batch oriented analysis engine, is setup with 4 slaves (aka executors) and a single management node that hosts Dali and the Thor Master node. The ROXIE cluster, is setup as a single node. 
 
 Our Architecture:
 ![](/assets/images/Architecture.001.jpeg)
