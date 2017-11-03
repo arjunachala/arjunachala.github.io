@@ -8,7 +8,7 @@ Both Thor and Roxie are designed to scale from a single execution process to tho
 
 A sample Thor configuration:
 
-![](/assets/images/slide6.png)
+![](/assets/images/Slide6.PNG)
 
 **Dali** is the HPCC Systems equivalent of the name node in the Hadoop architecture. The primary function of Dali is to store the metadata for the distributed file system. In addition, Dali stores the job execution statistics and data outputs. 
 
@@ -20,7 +20,7 @@ A sample Thor configuration:
 
 A sample Roxie configuration:
 
-![](/assets/images/slide7.png)
+![](/assets/images/Slide7.PNG)
 
 
 **Roxie** is based on a peer to peer architecture. Each Roxie process is allocated a data partition of a file. A Roxie process consists of two components. The **Worker** component is responsible for processing a local data partition.  The **Farmer** component has three major responsibilities:
