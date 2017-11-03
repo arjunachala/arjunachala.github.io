@@ -24,13 +24,13 @@ Our Architecture:
 
 ## ECL Watch Introduction
 
-![](/assets/images/slide1.png)
+![](/assets/images/Slide1.PNG)
 
 The ECL Watch is HPCC's management console to view the performance of the cluster, the execution of jobs, managing files, deploying queries and much more. In this early introduction of ECL Watch, the goal is to understand the parts that enable us to start developing ECL programs quickly. Hence, we only familiarize ourselves with the views that display the execution output (Execute View), the file handling (File View) and cluster topology (System View).  
 
 ECL Watch - Cluster Topology:
 
-![](/assets/images/slide2.png)
+![](/assets/images/Slide2.PNG)
 
 The cluster topology view demonstrates the layout of our cluster. In this example, we see that Thor consists of five nodes - one Thor Master and four Thor Slaves. The IP addresses are identical because the cluster is configured on a single physical system. This view is used by the operations team to validate the setup of the cluster (called pre-flight), in addition to using it as a monitoring tool.    
 
@@ -38,13 +38,13 @@ ECL Watch - File Handling:
 
 Landing Zone
 
-![](/assets/images/slide3.png)
+![](/assets/images/Slide3.PNG)
 
 This view contains the list of landing zones available to the cluster and the files on each of the landing zones. You can use this view to upload your own files and then import it into the cluster. The import process in HPCC is called as **Spray**. 
 
 Logical Files
 
-![](/assets/images/slide4.png)
+![](/assets/images/Slide4.PNG)
 
 Once a file is imported into Thor using the Spray process, a logical file entry is created in Dali, and the details of the file are reflected in the Logical File view. For example, you can click on a file entry and view how its parts are distributed across the slave nodes. 
 
@@ -56,18 +56,18 @@ Uploading the file
 
 In ECL Watch, click on the File View (1), next, click on the upload view (2), next, select the drop zone row (3) and finally click on the upload button (4) to select the file from your download location. After the upload is complete, the file chicago_employees.csv should appear under the landing zone as shown below. 
 
-![](/assets/images/slide8.png)
+![](/assets/images/Slide8.PNG)
 
 ## Importing the uploaded onto the Thor cluster
 
 While still on the landing zone view, select the file chicago_employees.csv (1), click on the Spray delimited (CSV=delimited) button (2), provide a target scope(aka namespace) for the file (3), change the target name by removing the ".csv" (4), click on the overwrite (5) option and finally Spray the file (6).  
 
-![](/assets/images/slide9.png)
-![](/assets/images/slide10.png)
+![](/assets/images/Slide9.PNG)
+![](/assets/images/Slide10.PNG)
 
 The Spray process creates a work unit (DLL) for the DFU Server which is responsible for identifying the file parts for each file and distributing the parts to the slave processing nodes (via the File Service). The work unit, in turn, provides the critical stats on the progress of the Spray operation that can be accessed in ECL Watch. Click on the File View (1), click on the work units view (2), and in the select the work unit that you are interested in and click on the ID. 
 
-![](/assets/images/slide11.png)
+![](/assets/images/Slide11.PNG)
 
 The detailed view where you can observe the following key details.
 
@@ -75,13 +75,13 @@ The detailed view where you can observe the following key details.
 1. The percent complete indicates the progress of the operation. Large files can take some time to complete. 
 1. The messages can indicate errors when the operation fails
 
-![](/assets/images/slide12.png)
+![](/assets/images/Slide12.PNG)
 
 ## Understanding the distribution of the file parts of the imported file for the current topology
 
 As a final step of the file import process, let us observe how Thor treats the imported file. As shown below, click on the File View (1), click on the logical files (2), click on the filter set to list only the files you are interested in (3), enter the filter criteria in the name (4), click apply to execute the filter (5) and finally using the filtered list, click on the logical file we Sprayed. 
 
-![](/assets/images/slide13.png)
+![](/assets/images/Slide13.PNG)
 
 The interesting information on this screen:
 
@@ -90,10 +90,10 @@ The interesting information on this screen:
 1. File Size - Size of the File in bytes
 
 
-![](/assets/images/slide14.png)
+![](/assets/images/Slide14.PNG)
 
 The other interesting is on the File Parts tab that shows the distribution of the file partitions.
 
-![](/assets/images/slide15.png)
+![](/assets/images/Slide15.PNG)
 
 This concludes Part 1 of the series. I hope we have achieved the goal of understanding the architecture of the system to develop our example and the process of ingesting a file into a Thor cluster. 
