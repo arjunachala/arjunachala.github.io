@@ -1,3 +1,4 @@
+# Thor and Roxie
 As you might have already discovered, the HPCC Systems stack consists of two primary processing cluster components.
 
 The **Thor** component is synonymous to Hadoop and Spark. It is used to process batch workloads on large-scale data and produce analytical outputs like aggregation views, scoring models etc. Since Thor has been built from the ground up to process batch data, its architecture is primed to perform some tasks like reading sequential data from a file and processing it.
