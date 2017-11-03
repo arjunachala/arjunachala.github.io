@@ -1,4 +1,4 @@
-#ECL Foundation - The Data Flow Paradigm
+# ECL Foundation - The Data Flow Paradigm
 
 The foundation of the ECL Language is based on a data flow execution paradigm. This is similar to how SQL Engines optimize execution of the SQL command based on an optimized explain plan.
 
