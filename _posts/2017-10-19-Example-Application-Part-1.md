@@ -20,7 +20,7 @@ Once the file is downloaded, I would recommend that you rename it something that
 Let us take a step back and understand the topology of the HPCC cluster that we are going to use. The Thor cluster, the batch-oriented analysis engine, is configured with one Master process and four Slave processes. The Roxie is setup as a single process. All of this, including the management nodes like Dali, run on a single AWS instance type. In a more performing setup, each of the components will be configured to run on its own instance type. I chose to run all of the components on a single instance, one, to illustrate the flexibility of the architecture, and two, to demonstrate it in an easily reproducible test environment for users to try. The test can be replicated on a single laptop or desktop. 
 
 Our Architecture:
-![](/assets/images/slide5.png)
+![](/assets/images/Slide5.PNG)
 
 ## ECL Watch Introduction
 
