@@ -1,6 +1,6 @@
 As you might have already discovered, the HPCC Systems stack consists of two primary processing cluster components.
 
-The **Thor** component is synonymous to Hadoop and Spark. It is used to process batch workloads on large-scale data and produce analytical outputs like aggregation views, scoring models etc. Since Thor has been built from the ground up to process batch data, its architecture is primed to perform some tasks like reading sequential data from a file and processing it.
+The **Thor** component is synonymous to Hadoop and Spark. It is used to process batch workloads on large-scale data and produce analytical outputs like aggregation views, scoring models etc. Since Thor has been built from the ground up to process batch data, its architecture is primed to perform tasks like reading sequential data from a file and processing it quickly.
 
 Once Thor prepares the data, the data will be ready to be served to end users in the form of queries or services. Queries and services require QoS (Quality of Service) around real-time response, concurrent access, and high availability. When you look up the weather for London today, you expect these same QoS - Sub-second response, always alive and highly concurrent access. This introduces us to **Roxie** the query component. Roxie is designed from the ground up to fulfill this QoS.
 
@@ -17,6 +17,8 @@ A sample Thor configuration:
 **File Service** runs on every physical server (or virtual) that hosts a partition of a file. For example, a File Service is present on the landing zone server as well as every server that hosts the Thor slave. 
 
 **Thor** is based on a **Master and Slave** architecture, where each Slave node hosts a partition of a data file and is responsible for code that processes that data partition. The Master node is responsible for the overall execution of a job and coordination of the execution flow. In circumstances where data needs to be exchanged between the Slave nodes, the Slave nodes communicate among themselves. The architecture is optimized to maximize parallel processing on data that is stored locally (shared nothing architecture).
+
+There are a few additional components like **ECL Agent**, **ESP Server** and **ECL Server** that are out of scope for the current post as they do not specifically relate to Thor or Roxie. We will discover them in later posts.
 
 A sample Roxie configuration:
 
