@@ -1,3 +1,8 @@
+---
+layout: post
+title: Code Structure
+---
+
 After reading the ECL Foundation topic, you might be wondering if the topic was a bit advanced to a beginner ECL developer. I compare it to attempting to learn Java without having a good foundation knowledge about OO concepts such as encapsulation, inheritance and polymorphism. Without understanding the data flow concepts, ECL programmers will make little progress in mastering the language.
 
 Speaking of encapsulation, ECL provides a few techniques of its own that resemble encapsulation.

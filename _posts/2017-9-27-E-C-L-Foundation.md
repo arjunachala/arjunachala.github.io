@@ -1,3 +1,8 @@
+---
+layout: post
+title: ECL Foundation
+---
+
 The foundation of the ECL Language is based on a data flow execution paradigm. This is similar to how SQL Engines optimize execution of the SQL command based on an optimized explain plan.
 
 Three key points to remember when programming in ECL:
