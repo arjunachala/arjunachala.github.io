@@ -18,7 +18,7 @@ Part 1 of the post will demonstrate the following:
 
 The input file can be downloaded from the [data.gov](http://data.gov) site. This is one of my favorite sites to download and explore publicly available data. The specific file we are interested contains the listing of all the government employees of the city of Chicago, their full names, job title, department, and salary. You can download the CSV from [here](https://catalog.data.gov/dataset/current-employee-names-salaries-and-position-titles-840f7). 
 
-Once the file is downloaded, I would recommend that you rename it something that is more user-friendly. I renamed my file to "chicago_employees.csv". 
+Once the file is downloaded, I would recommend that you rename it to something that is user-friendly. I renamed my file to "chicago_employees.csv". 
 
 ## Topology
 
@@ -97,7 +97,7 @@ The interesting information on this screen:
 
 ![](/assets/images/Slide14.PNG)
 
-The other interesting is on the File Parts tab that shows the distribution of the file partitions.
+The other interesting information is on the File Parts tab that shows the distribution of the file partitions. In this case, the 4 parts are mapped to the 4 Slave processes.
 
 ![](/assets/images/Slide15.PNG)
 
