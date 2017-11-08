@@ -22,7 +22,7 @@ Once the file is downloaded, I would recommend that you rename it something that
 
 ## Topology
 
-Let us take a step back and understand the topology of the HPCC cluster that we are going to use. The Thor cluster, the batch-oriented analysis engine, is configured with one Master process and four Slave processes. The Roxie is setup as a single process. All of this, including the management nodes like Dali, run on a single AWS instance type. In a more performing setup, each of the components will be configured to run on its own instance type. I chose to run all of the components on a single instance, one, to illustrate the flexibility of the architecture, and two, to demonstrate it in an easily reproducible test environment for users to try. The test can be replicated on a single laptop or desktop. 
+Let us take a step back and understand the topology of the HPCC cluster that we are going to use. The Thor cluster, the batch-oriented analysis engine, is configured with one Master process and four Slave processes. The Roxie is setup as a single process. All of this, including the management process like Dali, run on a single AWS instance type. In a more performing setup, each of the components will be configured to run on its own instance type. I chose to run all of the components on a single instance, one, to illustrate the flexibility of the architecture, and two, to demonstrate it in an easily reproducible test environment for users to try. The test can be replicated on a single laptop or desktop. 
 
 Our Architecture:
 ![](/assets/images/Slide5.PNG)
@@ -37,7 +37,7 @@ ECL Watch - Cluster Topology:
 
 ![](/assets/images/Slide2.PNG)
 
-The cluster topology view demonstrates the layout of our cluster. In this example, we see that Thor consists of five nodes - one Thor Master and four Thor Slaves. The IP addresses are identical because the cluster is configured on a single physical system. This view is used by the operations team to validate the setup of the cluster (called pre-flight), in addition to using it as a monitoring tool.    
+The cluster topology view demonstrates the layout of our cluster. In this example, we see that Thor consists of five processes - one Thor Master and four Thor Slaves. The IP addresses are identical because the cluster is configured on a single physical system. This view is used by the operations team to validate the setup of the cluster (called pre-flight), in addition to using it as a monitoring tool.    
 
 ECL Watch - File Handling: 
 
@@ -51,7 +51,7 @@ Logical Files
 
 ![](/assets/images/Slide4.PNG)
 
-Once a file is imported into Thor using the Spray process, a logical file entry is created in Dali, and the details of the file are reflected in the Logical File view. For example, you can click on a file entry and view how its parts are distributed across the slave nodes. 
+Once a file is imported into Thor using the Spray process, a logical file entry is created in Dali, and the details of the file are reflected in the Logical File view. For example, you can click on a file entry and view how its parts are mapped to the slave processes. 
 
 ## Uploading a file onto the HPCC landing zone
 
@@ -91,7 +91,7 @@ As a final step of the file import process, let us observe how Thor treats the i
 The interesting information on this screen:
 
 1. Directory - Location where a file part is stored on the server. I would advise you to access the location and review the files if you have access to the server. It helps in the broader understanding of the HPCC architecture.
-1. Path Mask - The pattern used to store the file parts. For example, a file part that is processed by the Thor Slave Process 1 will be called "chicago_employees_1_of_4". Since there are 4 Slave processes in our configuration, the DFU Server will automatically divide the file into 4 parts and distribute it to the respective server nodes. In our example, all the file parts will reside on the same server as we are using a single server which hosts the 4 Slave processes.
+1. Path Mask - The pattern used to store the file parts. For example, a file part that is processed by the Thor Slave Process 1 will be called "chicago_employees_1_of_4". Since there are 4 Slave processes in our configuration, the DFU Server will automatically divide the file into 4 parts and distribute it to the respective server that host the slave processes. In our example, all the file parts will reside on the same server as we are using a single server which hosts the 4 Slave processes.
 1. File Size - Size of the File in bytes
 
 
