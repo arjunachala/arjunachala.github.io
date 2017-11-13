@@ -24,7 +24,9 @@ raw_input_record := RECORD
     STRING text;
 END;
 
-raw_ds := DATASET([{'JOHN,SMITH,36'},{'RAJA,SUNDAR,25'},{'MARK,HANFLAND,50'}], raw_input_record);
+raw_ds := DATASET([{'JOHN,SMITH,36'},
+            {'RAJA,SUNDAR,25'},
+            {'MARK,HANFLAND,50'}], raw_input_record);
 
 person_record := RECORD
     STRING50 firstName;
@@ -86,7 +88,8 @@ raw_input_record := RECORD
     STRING text;
 END;
 
-raw_ds := DATASET ([{1, 'Coolest fans we have ever seen'}, {2, 'Share this with anybody'}]
+raw_ds := DATASET ([{1, 'Coolest fans we have ever seen'},
+                    {2, 'Share this with anybody'}]
               , raw_input_record);
 
 word_record := RECORD
@@ -270,9 +273,12 @@ address_record := RECORD
     STRING address;
 END;
 
-person_ds := DATASET([{1,22,'JOHN'}, {2,33,'FRED'}, {3,22,'ANNA'}, {4,34,'JAMES'}], person_record);
+person_ds := DATASET([{1,22,'JOHN'}, {2,33,'FRED'},
+                      {3,22,'ANNA'}, {4,34,'JAMES'}], person_record);
 
-address_ds := DATASET([{22, '210 Devon Mill Ct, Alpharetta, GA 30005'}, {33,'4945 Shelborne Dr, Cumming, GA 30095'}, {34,'Some Address, Cumming, GA 30096'}],address_record);
+address_ds := DATASET([{22, '210 Devon Mill Ct, Alpharetta, GA 30005'},
+                       {33,'4945 Shelborne Dr, Cumming, GA 30095'}, 
+                       {34,'Some Address, Cumming, GA 30096'}],address_record);
 
 person_addr_ds := JOIN(person_ds, address_ds, LEFT.address_id=RIGHT.address_id);
 
