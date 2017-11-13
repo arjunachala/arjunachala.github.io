@@ -102,7 +102,9 @@ word_record extractWord(raw_input_record le, UNSIGNED1 i) := TRANSFORM
   SELF.word := STD.Str.ToUpperCase(STD.Str.GetNthWord(le.text, i));
 END;
 
-norm_ds := NORMALIZE(raw_ds, STD.Str.WordCount(LEFT.text), extractWord(LEFT, COUNTER));
+norm_ds := NORMALIZE(raw_ds, 
+              STD.Str.WordCount(LEFT.text), 
+              extractWord(LEFT, COUNTER));
 
 OUTPUT(norm_ds);
 ```
@@ -278,9 +280,11 @@ person_ds := DATASET([{1,22,'JOHN'}, {2,33,'FRED'},
 
 address_ds := DATASET([{22, '210 Devon Mill Ct, Alpharetta, GA 30005'},
                        {33,'4945 Shelborne Dr, Cumming, GA 30095'}, 
-                       {34,'Some Address, Cumming, GA 30096'}],address_record);
+                       {34,'Some Address, Cumming, GA 30096'}],
+                       address_record);
 
-person_addr_ds := JOIN(person_ds, address_ds, LEFT.address_id=RIGHT.address_id);
+person_addr_ds := JOIN(person_ds, address_ds, 
+             LEFT.address_id=RIGHT.address_id);
 
 OUTPUT(person_addr_ds);
 
