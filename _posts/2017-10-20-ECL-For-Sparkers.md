@@ -1,0 +1,285 @@
+---
+layout: post
+title: ECL for Spark Programmers
+---
+
+One of my colleagues at work had a very interesting observation. He suggested that there might be an audience interested to learn ECL who are familiar with Apache Spark. How do we get them started quickly without having to learn ECL from scratch? Hence, the premise of this post is to introduce ECL to those already familiar with Spark. 
+
+Specifically, we will be reviewing the RDD transformation functions supported by Spark like map(), filter() etc. Before we begin, please review the [ECL Foundation](https://arjunachala.github.io/2017/09/27/E-C-L-Foundation.html) post that describes the Data Flow schematics of the ECL programming language. In addition, it should be remembered that ECL has more in common to SQL (declaritive) than to Python, Scala and Java (imperative). 
+
+Before we begin, I want to touch upon one subtle difference between an RDD and an ECL DATASET:
+
+*The number of RDD partitions can be created and manipulated in a Spark program. In ECL, the partitions are created based on the number of Slave processes or Slave process channels and hence cannot be manipulated in code* 
+
+
+## RDD.map()     
+
+A straight forward implementation of a map in ECL is the **PROJECT** function. PROJECT works on an ECL DATASET (equivalent of an RDD) by transforming each record. The output of a PROJECT is a new DATASET.
+
+```ECL
+
+IMPORT STD; 
+
+raw_input_record := RECORD
+    STRING text;
+END;
+
+raw_ds := DATASET([{'JOHN,SMITH,36'},{'RAJA,SUNDAR,25'},{'MARK,HANFLAND,50'}], raw_input_record);
+
+person_record := RECORD
+    STRING50 firstName;
+    STRING50 lastName;
+    INTEGER  age;
+END;
+
+person_ds := PROJECT(
+    raw_ds,
+    TRANSFORM(
+        person_record,
+        items := STD.STR.splitWords(LEFT.text, ',');
+        SELF.firstName := items[1];
+        SELF.lastName := items[2];
+        SELF.age := (INTEGER)items[3];
+    )
+);
+
+OUTPUT(person_ds);
+
+```
+
+Try out the code in the [ECL Playground](http://play.hpccsystems.com:8010/?Widget=ECLPlaygroundWidget)
+
+
+## RDD.filter() 
+
+A filter can be applied directly on a DATASET as shown below
+
+```ECL
+
+person_record := RECORD
+    STRING50 firstName;
+    STRING50 lastName;
+    INTEGER  age;
+END;
+
+person_ds := DATASET([{'JOHN','SMITH', 35}, 
+                {'RAJA','SUNDAR', 31},
+                {'MARK','HANFLAND', 25}], person_record);
+
+filtered_ds := person_ds(age > 30);  
+
+OUTPUT(filtered_ds);              
+
+```
+
+Try out the code in the [ECL Playground](http://play.hpccsystems.com:8010/?Widget=ECLPlaygroundWidget)
+
+## RDD.flatmap() 
+
+A flatmap() transforms each element in an RDD to multiple elements. Use the **NORMALIZE** function in ECL to perform the equivalent operation. 
+
+```ECL
+IMPORT STD;
+
+raw_input_record := RECORD
+    INTEGER id;
+    STRING text;
+END;
+
+raw_ds := DATASET ([{1, 'Coolest fans we have ever seen'}, {2, 'Share this with anybody'}]
+              , raw_input_record);
+
+word_record := RECORD
+    INTEGER id;
+    STRING100 word;
+END;
+
+word_record extractWord(raw_input_record le, UNSIGNED1 i) := TRANSFORM
+  SELF.id := le.id;
+  SELF.word := STD.Str.ToUpperCase(STD.Str.GetNthWord(le.text, i));
+END;
+
+norm_ds := NORMALIZE(raw_ds, STD.Str.WordCount(LEFT.text), extractWord(LEFT, COUNTER));
+
+OUTPUT(norm_ds);
+```
+## RDD.GROUPBY and RDD.GROUPBYKEY
+
+### Method 1 - Use the ECL GROUP and ROLLUP functions
+
+```ECL
+person_record := RECORD
+    STRING name;
+END; 
+
+person_ds := DATASET([{'JOHN'}, 
+                {'FRED'},
+                {'ANNA'},
+                {'JAMES'}], person_record);
+                       
+group_ds := GROUP(SORT(person_ds, name), name[1]);
+
+grouped_record := RECORD
+  STRING1 letter;
+  DATASET(person_record) names;                     
+  
+END;
+                       
+
+grouped_record rollupRecords(person_record L, 
+                          DATASET(person_record) R) := TRANSFORM
+    SELF.letter := L.name[1];
+    SELF.names := R;
+END;
+                      
+
+rollup_ds := ROLLUP(group_ds, GROUP, rollupRecords(LEFT, ROWS(LEFT))); 
+
+OUTPUT(rollup_ds);   
+```
+
+### Method 2 - Use the ECL GROUP and DENORMALIZE functions                     
+
+```ECL
+person_record := RECORD
+    STRING name;
+END; 
+
+person_ds := DATASET([{'JOHN'}, 
+                {'FRED'},
+                {'ANNA'},
+                {'JAMES'}], person_record);
+                       
+                       
+grouped_record := RECORD
+  STRING1 letter;
+  DATASET(person_record) names;                     
+  
+END;
+                       
+
+grouped_record deNormThem(person_record L, 
+                          DATASET(person_record) R) := TRANSFORM
+    SELF.letter := L.name[1];
+    SELF.names := R;
+END;
+
+ 
+denorm_ds := DENORMALIZE(person_ds, person_ds, 
+                         LEFT.name[1]=RIGHT.name[1], 
+                         GROUP, deNormThem(LEFT, ROWS(RIGHT)));
+                         
+
+OUTPUT(denorm_ds); 
+```
+
+## RDD.AggregateByKey and RDD.ReduceByKey
+
+```ECL
+
+employee_record := RECORD
+    STRING50 firstName;
+    STRING50 lastName;
+    STRING50 department;
+    REAL  salary;
+END;
+
+employee_ds := DATASET([{'JOHN','SMITH', 'SCIENCE', 100000}, 
+                {'RAJA','SUNDAR', 'SCIENCE',150000},
+                {'MARK','HANFLAND','MATH',120000}], employee_record);
+
+
+dept_salary_record := RECORD
+  employee_ds.department;
+  REAL     totalSalary := SUM(GROUP, employee_ds.salary);    
+END;
+
+dept_slary_ds := TABLE(employee_ds, dept_salary_record, department);
+
+OUTPUT(dept_slary_ds);
+
+```
+Try out the code in the [ECL Playground](http://play.hpccsystems.com:8010/?Widget=ECLPlaygroundWidget)
+
+
+## RDD.MapPartitions
+
+In Spark the MapPartitions executes the map operation on every partition independently. 
+
+In ECL, replace the PROJECT function call in the RDD.Map example with the following code. The only difference is the addition of the 'LOCAL' keyword. The operation is ensured to work on every partition of the data independently. Note that every ECL transformation operation can be executed on the partition independently.
+
+```ECL
+
+person_ds := PROJECT(
+    raw_ds,
+    TRANSFORM(
+        person_record,
+        items := STD.STR.splitWords(LEFT.text, ',');
+        SELF.firstName := items[1];
+        SELF.lastName := items[2];
+        SELF.age := (INTEGER)items[3];
+    ),
+    LOCAL
+);
+
+```
+
+Try out the code in the [ECL Playground](http://play.hpccsystems.com:8010/?Widget=ECLPlaygroundWidget)
+
+## RDD.UNION
+
+A RDD.UNION, combines two RDDs by creating a new RDD by simply appending the partitions. In ECL, you can combine data from two or more DATASETS using the '+' operator.
+
+```ECL
+
+person_record := RECORD
+    STRING name;
+END; 
+
+person_ds1 := DATASET([{'JOHN'}, 
+                  {'FRED'},
+                  {'ANNA'},
+                  {'JAMES'}], person_record);
+
+person_ds2 := DATASET([{'JESSICA'}, 
+                  {'MARK'},
+                  {'TRISH'},
+                  {'JAMES'}], person_record);                  
+
+both_ds := person_ds1 + person_ds2;
+
+OUTPUT(both_ds);
+
+```  
+
+Try out the code in the [ECL Playground](http://play.hpccsystems.com:8010/?Widget=ECLPlaygroundWidget)
+
+## RDD.JOIN
+
+
+```ECL
+
+person_record := RECORD
+    INTEGER id;
+    INTEGER address_id;
+    STRING name;
+END; 
+
+address_record := RECORD
+    INTEGER address_id;
+    STRING address;
+END;
+
+person_ds := DATASET([{1,22,'JOHN'}, {2,33,'FRED'}, {3,22,'ANNA'}, {4,34,'JAMES'}], person_record);
+
+address_ds := DATASET([{22, '210 Devon Mill Ct, Alpharetta, GA 30005'}, {33,'4945 Shelborne Dr, Cumming, GA 30095'}, {34,'Some Address, Cumming, GA 30096'}],address_record);
+
+person_addr_ds := JOIN(person_ds, address_ds, LEFT.address_id=RIGHT.address_id);
+
+OUTPUT(person_addr_ds);
+
+```
+
+Try out the code in the [ECL Playground](http://play.hpccsystems.com:8010/?Widget=ECLPlaygroundWidget)
+
+As you can see, ECL has a lot in common to Spark. That said, the post also highlights why ECL is a natural language for ETL processing, it has strong data typing semantics and abstracts the developers from the parallel processing optimizations. 
