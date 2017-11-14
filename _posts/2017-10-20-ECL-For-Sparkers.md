@@ -97,9 +97,9 @@ word_record := RECORD
     STRING100 word;
 END;
 
-word_record extractWord(raw_input_record le, UNSIGNED1 i) := TRANSFORM
-  SELF.id := le.id;
-  SELF.word := STD.Str.ToUpperCase(STD.Str.GetNthWord(le.text, i));
+word_record extractWord(raw_input_record l, UNSIGNED1 i) := TRANSFORM
+  SELF.id := l.id;
+  SELF.word := STD.Str.ToUpperCase(STD.Str.GetNthWord(l.text, i));
 END;
 
 norm_ds := NORMALIZE(raw_ds, 
@@ -163,8 +163,8 @@ grouped_record := RECORD
 END;
                        
 
-grouped_record deNormThem(person_record L, 
-                          DATASET(person_record) R) := TRANSFORM
+grouped_record deNorm(person_record L, 
+                      DATASET(person_record) R) := TRANSFORM
     SELF.letter := L.name[1];
     SELF.names := R;
 END;
@@ -172,7 +172,7 @@ END;
  
 denorm_ds := DENORMALIZE(person_ds, person_ds, 
                          LEFT.name[1]=RIGHT.name[1], 
-                         GROUP, deNormThem(LEFT, ROWS(RIGHT)));
+                         GROUP, deNorm(LEFT, ROWS(RIGHT)));
                          
 
 OUTPUT(denorm_ds); 
@@ -291,6 +291,65 @@ OUTPUT(person_addr_ds);
 ```
 
 Try out the code in the [ECL Playground](http://play.hpccsystems.com:8010/?Widget=ECLPlaygroundWidget)
+
+
+## RDD.DISTINCT
+
+Use a combination of the ECL's SORT and DEDUP to accomplish the DISTINCT functionality
+
+```ECL
+
+person_record := RECORD
+    STRING name;
+END; 
+
+person_ds := DATASET([{'JOHN'}, 
+                  {'FRED'},
+                  {'ANNA'},
+                  {'JAMES'},
+                  {'JOHN'},
+                  {'ANNA'}], person_record);
+
+
+distinct_ds := DEDUP(SORT(person_ds, name));
+
+OUTPUT(distinct_ds);
+
+
+```
+
+Try out the code in the [ECL Playground](http://play.hpccsystems.com:8010/?Widget=ECLPlaygroundWidget)
+
+## RDD.PARTITIONBY
+
+This is a powerful feature that rebalances the partitions by redistributing the data by a key. This helps in maximizing a parallel operation by ensuring that all the records that match a key will reside in exactly one partition. In ECL, use the DISTRIBUTE function to rebalance the existing partitions. However, it should be noted that you cannot add or subtract partitions in ECL. 
+
+```ECL
+
+person_record := RECORD
+    STRING100 name;
+    STRING2 state_code;
+END; 
+
+person_ds := DATASET([{'JOHN', 'GA'}, 
+                  {'FRED', 'CA'},
+                  {'ANNA', 'CA'},
+                  {'JAMES', 'FL'},
+                  {'JESSICA', 'AL'},
+                  {'TRISH', 'GA'}], person_record);
+
+
+distributed_ds := DISTRIBUTE(person_ds, HASH32(state_code));
+
+//Perform some operations on the new partitions
+
+OUTPUT(distributed_ds,, '~examples::out::person');
+
+
+```
+
+Try out the code in the [ECL Playground](http://play.hpccsystems.com:8010/?Widget=ECLPlaygroundWidget)
+
 
 As you can see, ECL has a lot in common to Spark. That said, the post also highlights why ECL is a natural language for ETL processing. With its strong data typing semantics and abstractions for parallel processing, ECL's goal is to enable developers to concentrate on solving data problems. 
 
