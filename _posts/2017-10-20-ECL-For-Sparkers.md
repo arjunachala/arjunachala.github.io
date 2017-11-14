@@ -292,4 +292,6 @@ OUTPUT(person_addr_ds);
 
 Try out the code in the [ECL Playground](http://play.hpccsystems.com:8010/?Widget=ECLPlaygroundWidget)
 
-As you can see, ECL has a lot in common to Spark. That said, the post also highlights why ECL is a natural language for ETL processing, it has strong data typing semantics and abstracts the developers from the parallel processing optimizations. 
+As you can see, ECL has a lot in common to Spark. That said, the post also highlights why ECL is a natural language for ETL processing. With its strong data typing semantics and abstractions for parallel processing, ECL's goal is to enable developers to concentrate on solving data problems. 
+
+P.S. I cannot claim to be an expert on Spark. Examples in this post have been derived after referring to the [Databricks training manual](https://training.databricks.com/visualapi.pdf). 
