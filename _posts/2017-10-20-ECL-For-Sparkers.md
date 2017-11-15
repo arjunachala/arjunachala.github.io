@@ -211,7 +211,7 @@ Try out the code in the [ECL Playground](http://play.hpccsystems.com:8010/?Widge
 
 In Spark the MapPartitions executes the map operation on every partition independently. 
 
-In ECL, replace the PROJECT function call in the RDD.Map example with the following code. The only difference is the addition of the 'LOCAL' keyword. The operation is ensured to work on every partition of the data independently. On a related note, all ECL transformation operations can be similarly executed on the partition independently.
+In ECL, replace the PROJECT function call in the RDD.Map example with the following code. The only difference is the addition of the 'LOCAL' keyword. The operation is ensured to work on every partition of the data independently. On a related note, all ECL transformation operations can be similarly executed on the partitions.
 
 ```ECL
 
