@@ -23,7 +23,6 @@ A sample Thor configuration:
 
 **Thor** is based on a **Master and Slave** architecture, where each Slave node hosts a partition of a data file and is responsible for code that processes that data partition. The Master node is responsible for the overall execution of a job and coordination of the execution flow. In circumstances where data needs to be exchanged between the Slave nodes, the Slave nodes communicate among themselves. The architecture is optimized to maximize parallel processing on data that is stored locally (shared nothing architecture).
 
-There are a few additional components like **ECL Agent**, **ESP Server** and **ECL Server** that are out of scope for the current post as they do not specifically relate to Thor or Roxie. We will discover them in later posts.
 
 A sample Roxie configuration:
 
