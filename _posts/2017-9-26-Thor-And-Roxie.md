@@ -21,7 +21,7 @@ A sample Thor configuration:
 
 **File Service** runs on every physical server (or virtual) that hosts a partition of a file. For example, a File Service is present on the landing zone server as well as every server that hosts the Thor slave. 
 
-**Thor** is based on a **Master and Slave** architecture, where each Slave node hosts a partition of a data file and is responsible for code that processes that data partition. The Master node is responsible for the overall execution of a job and coordination of the execution flow. In circumstances where data needs to be exchanged between the Slave nodes, the Slave nodes communicate among themselves. The architecture is optimized to maximize parallel processing on data that is stored locally (shared nothing architecture).
+**Thor** is based on a **Master and Slave** architecture, where each Slave process is responsible to process a partition of a data file. The Master node is responsible for the overall execution of a job and coordination of the execution flow. In circumstances where data needs to be exchanged between the Slave nodes, the Slave nodes communicate among themselves. The architecture is optimized to maximize parallel processing on data that is stored locally (shared nothing architecture).
 
 
 A sample Roxie configuration:
